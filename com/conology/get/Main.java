@@ -1,4 +1,4 @@
-package net.conology.test;
+package com.conology.get;
 
 import java.util.Base64;
 import com.fasterxml.jackson.databind.ObjectMapper;
