@@ -2,29 +2,67 @@ package com.conology.get;
 
 import java.util.Base64;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
-
-public class Main {
+public class MainTest {
 
     public static void main(String[] args) throws Exception {
-    	String original = "rok.pusnik@conology.onmicrosoft.com:nZvnprWZ234FK4RjIDWk32E6";
-    	String encoded = Base64.getEncoder().encodeToString(original.getBytes());
-
-    	
-    	//just reading from existing JSON file
-    	ObjectMapper mapper = new ObjectMapper();
-    	ReadWebPage page = new ReadWebPage();
-    	String content = page.getWebContent("http://jsonplaceholder.typicode.com/posts");
-    	
-	    Post[] posts = mapper.readValue(content, Post[].class);
-	    System.out.println(posts[4].body);
-    }
-    //TOKEN = rok.pusnik@conology.onmicrosoft.com:nZvnprWZ234FK4RjIDWk32E6
+        String original = "rok.pusnik@conology.onmicrosoft.com:nZvnprWZ234FK4RjIDWk32E6";
+        String encoded = Base64.getEncoder().encodeToString(original.getBytes());
+        String authString = "Authorization: Basic ".concat(encoded);
+        String contentType = "Content-Type: application/json";
+        String testAPIGET = "https://conology.atlassian.net/rest/api/2/issue/TRA-144";
     
+	//java.io way of trying to authenticate
+        URL url = new URL(testAPIGET);
+        HttpURLConnection con = (HttpURLConnection) url.openConnection();
+        con.setRequestMethod("POST");
+        con.setRequestProperty("Content-Type","application/json");
+        con.setRequestProperty("Authorization", "Basic "+encoded);
+
+        //for POST
+        con.setDoOutput(true);
+        OutputStream os = con.getOutputStream();
+        os.write("grant_type=password&username=someusername&password=somepassword&scope=profile".getBytes()); 
+	//line 30 is very wrong, Jira doesn't need this... but it does need something in its place?
+        os.flush();
+        os.close();
+        // end POST
+    	
+        int responseCode = con.getResponseCode();
+        System.out.println("POST Response Code :: " + responseCode);
+        if (responseCode == HttpURLConnection.HTTP_OK) { //success
+            BufferedReader in = new BufferedReader(new InputStreamReader(con.getInputStream()));
+            String inputLine;
+            StringBuffer response = new StringBuffer();
+            while ((inputLine = in.readLine()) != null) {
+                response.append(inputLine);
+            }
+            in.close();
+            // print result
+            System.out.println(response.toString());
+        } else {
+            System.out.println("POST request not worked");
+        }  
+	//end of java.io way of trying to authenticate
+	    
+	    
+      ObjectMapper mapper = new ObjectMapper();
+      ReadWebPage page = new ReadWebPage();
+      String content = page.getWebContent(testAPIGET);
+      System.out.println(content);
+	    /*
+       * Post[] posts = mapper.readValue(content, Post[].class);
+	     * System.out.println(posts[4].body);
+       */
+    }
     /*
      * send this curl to jira?
-     * curl -D- -X GET -H "Authorization: Basic ZnJlZDpmcmVk" -H 
-       "Content-Type: application/json" "https://your-domain.atlassian.net/rest/api/2/issue/QA-31"
+     * curl -D- -u rok.pusnik@conology.onmicrosoft.com:nZvnprWZ234FK4RjIDWk32E6 -X GET -H "Content-Type: application/json" "https://conology.atlassian.net/rest/api/2/issue/TRA-144"
      */
     
     //need to first grab active sprint, then all issues from the sprint, then data from specific issues
