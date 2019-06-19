@@ -46,6 +46,6 @@ public class PersonController {
 		// add to the spring model
 		theModel.addAttribute("persons", thePersons);
 		
-		return "list-persons";
+		return "display";
 	}
 }
