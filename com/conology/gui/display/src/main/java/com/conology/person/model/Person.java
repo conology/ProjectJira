@@ -34,7 +34,7 @@ public int getSumOfTotalHours() {
 public void setSumOfTotalHours(int sumOfTotalHours) {
 	this.sumOfTotalHours = sumOfTotalHours;
 }
-public int remainingHours() {
+public int getRemainingHours() {
 	return remainingHours;
 }
 public void setRemainingHours(int remainingHours) {
