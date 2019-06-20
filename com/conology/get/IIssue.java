@@ -2,7 +2,7 @@ package com.conology.get;
 
 import com.conology.server.Person;
 
-public interface Issue {
+public interface IIssue {
 	int timeSpent=0;
 	int timeEstimate=0;
 	String description = "";
