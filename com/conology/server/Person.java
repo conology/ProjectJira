@@ -1,6 +1,7 @@
 package com.conology.server;
+import com.conology.get*;
 
-public interface Person {
+public interface Person extends IIssue {
 	public static int id=0;
 	public static String name="";
 	public static int sumEstimate=0;
