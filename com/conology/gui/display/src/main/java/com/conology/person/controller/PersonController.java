@@ -1,4 +1,4 @@
-package com.conology.person.controller;
+package com.conology.display.controller;
 
 import java.util.ArrayList;
 import java.util.List;
