@@ -1,4 +1,4 @@
-package com.conology.person.model;
+package com.conology.display.model;
 public class Person {
 	
 private int id;
