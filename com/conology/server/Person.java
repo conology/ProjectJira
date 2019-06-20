@@ -8,7 +8,5 @@ public interface Person extends IIssue {
 	public static int sumRemainingEffort=0;
 	boolean isUnderworked();
 	boolean isOverworked();
-	boolean testCOmmit();
 	//TODO: maybe add way to get picture too
-	//dodam se eno vrsto.
 }
