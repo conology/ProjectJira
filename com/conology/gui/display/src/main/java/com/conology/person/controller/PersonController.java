@@ -24,9 +24,9 @@ public class PersonController {
 	private void loadData() {
 		
 		// create persons
-		Person per1 = new Person(1, "Aleš",40,0);
+		Person per1 = new Person(1, "Aleš",41,0);
 		Person per2 = new Person(2, "Rok",35,5);
-		Person per3 = new Person(3, "Bojan",20,20);
+		Person per3 = new Person(3, "Bojan",20,21);
 
 		// create the list
 		thePersons = new ArrayList<>();
